@@ -38,6 +38,5 @@ export default (path1, path2) => {
   const file1 = readFile(path1);
   const file2 = readFile(path2);
 
-  const res = getDfferences(file1, file2);
-  return res;
+  return getDfferences(file1, file2);
 };

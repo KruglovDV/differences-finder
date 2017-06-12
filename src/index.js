@@ -9,5 +9,7 @@ export const application = () =>
     .arguments('<firstConfig> <secondConfig>')
     .description('Compares two configuration files and shows a difference.')
     .option('-f,  --format [type]', 'Output format')
-    .action(diff);
-
+    .action((firstConfig, secondConfig) => {
+      const difference = diff(firstConfig, secondConfig);
+      console.log(difference);
+    });
