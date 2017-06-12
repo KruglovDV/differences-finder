@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "bin": {
-    "gendiff": "dist/src/bin/index.js"
+    "gendiff": "dist/src/bin/gendiff.js"
   },
   "scripts": {
     "babel-node": "babel-node",
