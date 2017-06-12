@@ -1,0 +1,36 @@
+{
+  "name": "kruglov-gendiff",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "gendiff": "dist/src/bin/index.js"
+  },
+  "scripts": {
+    "babel-node": "babel-node",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build",
+    "eslint": "eslint",
+    "test": "jest"
+  },
+  "author": "Dmitry Kruglov",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^2.9.0",
+    "readline-sync": "*"
+  },
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-preset-env": "*",
+    "babel-preset-stage-0": "*",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "*",
+    "eslint-plugin-import": "*",
+    "jest-cli": "^20.0.4"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
