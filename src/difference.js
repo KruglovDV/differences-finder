@@ -32,8 +32,7 @@ const showDfferences = (firstObj, secObj) => {
   }, {});
 
   return res;
-}
-
+};
 export default (path1, path2) => {
   const file1 = readFile(path1);
   const file2 = readFile(path2);
