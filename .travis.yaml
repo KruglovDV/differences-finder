@@ -2,6 +2,4 @@ language: node_js
 node_js:
   - stable
 
-script:
- -make lint
- -make test
+script: make lint test
