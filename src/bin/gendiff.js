@@ -1,4 +1,4 @@
 #!/usr/bin/env node
-import app from '../';
+import { application } from '../';
 
-app().parse(process.argv);
+application().parse(process.argv);

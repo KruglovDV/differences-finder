@@ -1,5 +1,5 @@
 import path from 'path';
-import diff from '../src/difference';
+import diff from '../src/getDifferences';
 
 test('difference between files', () => {
   const firstFile = path.join(__dirname, 'testFiles/first.json');

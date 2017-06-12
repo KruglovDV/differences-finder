@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const readFile = path => JSON.parse(fs.readFileSync(path));
 
-const showDfferences = (firstObj, secObj) => {
+const getDfferences = (firstObj, secObj) => {
   const keys = Object.keys(firstObj)
     .concat(Object.keys(secObj))
     .reduce((acc, el) => {
@@ -33,12 +33,11 @@ const showDfferences = (firstObj, secObj) => {
 
   return res;
 };
+
 export default (path1, path2) => {
   const file1 = readFile(path1);
   const file2 = readFile(path2);
 
-  const res = showDfferences(file1, file2);
-
-  console.log(res);
+  const res = getDfferences(file1, file2);
   return res;
 };
