@@ -1,8 +1,9 @@
+import path from 'path';
 import diff from '../src/difference';
 
 test('difference between files', () => {
-  const firstFile = '/Users/Kruglov/Documents/test/first.json';
-  const secondFile = '/Users/Kruglov/Documents/test/second.json';
+  const firstFile = path.join(__dirname, 'testFiles/first.json');
+  const secondFile = path.join(__dirname, 'testFiles/second.json');
   const res = {
     host: 'hexlet.io',
     '+ timeout': 20,

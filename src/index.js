@@ -8,4 +8,3 @@ export default () =>
     .description('Compares two configuration files and shows a difference.')
     .option('-f,  --format [type]', 'Output format')
     .action(diff);
-
