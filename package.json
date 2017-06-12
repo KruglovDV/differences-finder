@@ -31,6 +31,7 @@
     "jest-cli": "^20.0.4"
   },
   "jest": {
+    "testRegex": ".*-test.js",
     "testEnvironment": "node"
   }
 }
