@@ -1,5 +1,5 @@
 # project-lvl2-s99
 
-<a href="https://codeclimate.com/github/codeclimate/codeclimate/coverage"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/coverage.svg" /></a>
+[![Code Climate](https://codeclimate.com/github/KruglovDV/project-lvl2-s99/badges/gpa.svg)](https://codeclimate.com/github/KruglovDV/project-lvl1-s92)
 
-<a href="https://codeclimate.com/github/codeclimate/codeclimate"><img src="https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg" /></a>
+<a href="https://codeclimate.com/github/KruglovDV/project-lvl2-s99"><img src="https://codeclimate.com/github/KruglovDV/project-lvl1-s92/badges/issue_count.svg" /></a>
