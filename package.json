@@ -1,6 +1,6 @@
 {
   "name": "kruglov-gendif",
-  "version": "0.0.13",
+  "version": "0.0.15",
   "description": "Compares two configuration files and shows a difference.",
   "main": "./dist/index.js",
   "bin": {
