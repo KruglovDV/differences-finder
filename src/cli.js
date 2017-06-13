@@ -1,6 +1,5 @@
 import app from 'commander';
 import diff from './';
-import getFile from './getFile';
 
 export default () =>
   app
@@ -9,6 +8,6 @@ export default () =>
     .description('Compares two configuration files and shows a difference.')
     .option('-f,  --format [type]', 'Output format')
     .action((firstConfig, secondConfig) => {
-      const difference = diff(firstConfig, secondConfig, getFile);
+      const difference = diff(firstConfig, secondConfig);
       console.log(difference);
     });
