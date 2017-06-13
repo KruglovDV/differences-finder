@@ -17,6 +17,8 @@ const getParsedObj = (path) => {
   if (extension === 'ini') {
     return ini.parse(fs.readFileSync(path, 'utf-8'));
   }
+
+  return undefined;
 };
 
 const getDfferences = (firstObj, secObj) => {
