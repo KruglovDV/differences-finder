@@ -1,16 +1,21 @@
 import fs from 'fs';
 import _ from 'lodash';
 import yaml from 'js-yaml';
+import ini from 'ini';
 
 const getParsedObj = (path) => {
   const extension = path.slice(path.lastIndexOf('.') + 1);
 
   if (extension === 'json') {
-    return JSON.parse(fs.readFileSync(path));
+    return JSON.parse(fs.readFileSync(path, 'utf-8'));
   }
 
   if (extension === 'yml') {
-    return yaml.safeLoad(fs.readFileSync(path));
+    return yaml.safeLoad(fs.readFileSync(path, 'utf-8'));
+  }
+
+  if (extension === 'ini') {
+    return ini.parse(fs.readFileSync(path, 'utf-8'));
   }
 };
 

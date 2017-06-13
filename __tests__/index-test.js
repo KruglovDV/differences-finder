@@ -11,7 +11,7 @@ test('difference between JSON files', () => {
     '- proxy': '123.234.53.22',
     '+ verbose': true,
   };
-  expect(JSON.stringify(diff(firstFile, secondFile))).toBe(JSON.stringify(res));
+  expect(diff(firstFile, secondFile)).toEqual(res);
 });
 
 test('difference between YAML files', () => {
@@ -24,5 +24,18 @@ test('difference between YAML files', () => {
     '- proxy': '123.234.53.22',
     '+ verbose': true,
   };
-  expect(JSON.stringify(diff(firstFile, secondFile))).toBe(JSON.stringify(res));
+  expect(diff(firstFile, secondFile)).toEqual(res);
+});
+
+test('difference between INI files', () => {
+  const firstFile = path.join(__dirname, 'testFiles/first.ini');
+  const secondFile = path.join(__dirname, 'testFiles/second.ini');
+  const res = {
+    host: 'hexlet.io',
+    '+ timeout': '20',
+    '- timeout': '50',
+    '- proxy': '123.234.53.22',
+    '+ verbose': true,
+  };
+  expect(diff(firstFile, secondFile)).toEqual(res);
 });
