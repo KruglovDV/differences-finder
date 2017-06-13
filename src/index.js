@@ -1,9 +1,7 @@
 import app from 'commander';
 import diff from './getDifferences';
 
-export default diff;
-
-export const application = () =>
+export default () =>
   app
     .version('0.0.1')
     .arguments('<firstConfig> <secondConfig>')

@@ -1,8 +1,8 @@
 {
   "name": "kruglov-gendif",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Compares two configuration files and shows a difference.",
-  "main": "./dist/index.js",
+  "main": "./dist/getDifferences.js",
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
   },
@@ -17,6 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^2.9.0",
+    "js-yaml": "^3.8.4",
+    "lodash": "^4.17.4",
     "readline-sync": "*"
   },
   "devDependencies": {

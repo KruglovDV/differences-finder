@@ -1,16 +1,21 @@
 import fs from 'fs';
+import _ from 'lodash';
+import yaml from 'js-yaml';
 
-const readFile = path => JSON.parse(fs.readFileSync(path));
+const getParsedObj = (path) => {
+  const extension = path.slice(path.lastIndexOf('.') + 1);
+
+  if (extension === 'json') {
+    return JSON.parse(fs.readFileSync(path));
+  }
+
+  if (extension === 'yml') {
+    return yaml.safeLoad(fs.readFileSync(path));
+  }
+};
 
 const getDfferences = (firstObj, secObj) => {
-  const keys = Object.keys(firstObj)
-    .concat(Object.keys(secObj))
-    .reduce((acc, el) => {
-      if (!acc.find(e => e === el)) {
-        return [...acc, el];
-      }
-      return acc;
-    }, []);
+  const keys = _.union(Object.keys(firstObj).concat(Object.keys(secObj)));
 
   const res = keys.reduce((acc, el) => {
     if (firstObj[el] === secObj[el]) {
@@ -35,8 +40,8 @@ const getDfferences = (firstObj, secObj) => {
 };
 
 export default (path1, path2) => {
-  const file1 = readFile(path1);
-  const file2 = readFile(path2);
+  const file1 = getParsedObj(path1);
+  const file2 = getParsedObj(path2);
 
   return getDfferences(file1, file2);
 };
