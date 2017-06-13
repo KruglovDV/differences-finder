@@ -1,23 +1,19 @@
-import fs from 'fs';
 import _ from 'lodash';
-import yaml from 'js-yaml';
-import ini from 'ini';
+import Path from 'path';
+import getParser from './parsers';
 
-const getParsedObj = (path) => {
-  const extension = path.slice(path.lastIndexOf('.') + 1);
-
-  if (extension === 'json') {
-    return JSON.parse(fs.readFileSync(path, 'utf-8'));
+const getParsedObj = (file, extension) => {
+  if (extension === '.json') {
+    return getParser.json(file);
   }
 
-  if (extension === 'yml') {
-    return yaml.safeLoad(fs.readFileSync(path, 'utf-8'));
+  if (extension === '.yml') {
+    return getParser.yaml(file);
   }
 
-  if (extension === 'ini') {
-    return ini.parse(fs.readFileSync(path, 'utf-8'));
+  if (extension === '.ini') {
+    return getParser.ini(file);
   }
-
   return undefined;
 };
 
@@ -46,9 +42,11 @@ const getDfferences = (firstObj, secObj) => {
   return res;
 };
 
-export default (path1, path2) => {
-  const file1 = getParsedObj(path1);
-  const file2 = getParsedObj(path2);
+export default (path1, path2, readFile) => {
+  const extension1 = Path.extname(path1);
+  const extension2 = Path.extname(path2);
+  const obj1 = getParsedObj(readFile(path1), extension1);
+  const obj2 = getParsedObj(readFile(path2), extension2);
 
-  return getDfferences(file1, file2);
+  return getDfferences(obj1, obj2);
 };
