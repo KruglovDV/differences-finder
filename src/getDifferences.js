@@ -3,34 +3,6 @@ import Path from 'path';
 import getParser from './parsers';
 import getFile from './getFile';
 
-const parseForUser = (obj) => {
-  const string = JSON.stringify((obj));
-  const res = string.split('')
-    .map((el) => {
-      if (el === '{') {
-        return `${el}\n   `;
-      }
-
-      if (el === '}') {
-        return `\n${el}`;
-      }
-
-      if (el === ':') {
-        return `${el} `;
-      }
-
-      if (el === ',') {
-        return '\n  ';
-      }
-
-      if (el === '"') {
-        return '';
-      }
-      return el;
-    }).join('');
-  return res;
-};
-
 const getParsedObj = (file, extension) => {
   if (extension === '.json') {
     return getParser.json(file);
@@ -43,31 +15,36 @@ const getParsedObj = (file, extension) => {
   if (extension === '.ini') {
     return getParser.ini(file);
   }
+  return false;
 };
 
 const getDfferences = (firstObj, secObj) => {
+  if (!firstObj || !secObj) {
+    throw Error('can`t parse from this format!');
+  }
   const keys = _.union(Object.keys(firstObj), (Object.keys(secObj)));
 
   const res = keys.reduce((acc, el) => {
     if (firstObj[el] === secObj[el]) {
-      return { ...acc, [` ${el}`]: firstObj[el] };
+      return [...acc, `    ${el}: ${firstObj[el]}\n`];
     }
 
     if (firstObj[el] && secObj[el]) {
-      return { ...acc, [`+ ${el}`]: secObj[el], [`- ${el}`]: firstObj[el] };
+      return [...acc, `  + ${el}: ${secObj[el]}\n  - ${el}: ${firstObj[el]}\n`];
     }
 
     if (firstObj[el] && secObj[el] === undefined) {
-      return { ...acc, [`- ${el}`]: firstObj[el] };
+      return [...acc, `  - ${el}: ${firstObj[el]}\n`];
     }
 
     if (secObj[el] && firstObj[el] === undefined) {
-      return { ...acc, [`+ ${el}`]: secObj[el] };
+      return [...acc, `  + ${el}: ${secObj[el]}\n`];
     }
     return acc;
-  }, {});
+  }, ['{\n']);
 
-  return res;
+  res.push('}');
+  return res.join('');
 };
 
 export default (path1, path2) => {
@@ -76,5 +53,5 @@ export default (path1, path2) => {
   const obj1 = getParsedObj(getFile(path1), extension1);
   const obj2 = getParsedObj(getFile(path2), extension2);
 
-  return parseForUser(getDfferences(obj1, obj2));
+  return getDfferences(obj1, obj2);
 };
