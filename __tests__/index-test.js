@@ -64,3 +64,15 @@ test('difference between YAML recursive files', () => {
   const secondFile = path.join(__dirname, '__fixtures__/recursSecond.yml');
   expect(diff(firstFile, secondFile)).toEqual(recRes);
 });
+
+test('difference between INI recursive files', () => {
+  const firstFile = path.join(__dirname, '__fixtures__/recursFirst.json');
+  const secondFile = path.join(__dirname, '__fixtures__/recursSecond.json');
+  expect(diff(firstFile, secondFile)).toEqual(recRes);
+});
+
+test('difference between INI recursive files', () => {
+  const firstFile = path.join(__dirname, '__fixtures__/recursFirst.ini');
+  const secondFile = path.join(__dirname, '__fixtures__/recursSecond.ini');
+  expect(diff(firstFile, secondFile)).toEqual(recRes);
+});

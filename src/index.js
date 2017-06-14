@@ -11,5 +11,5 @@ export default (path1, path2) => {
   const obj1 = getObject(file1);
   const obj2 = getObject(file2);
 
-  return `{\n${getDfferences(obj1, obj2, '  ')}}`;
+  return getDfferences(obj1, obj2);
 };

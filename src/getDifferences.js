@@ -40,4 +40,5 @@ const getDfferences = (obj1, obj2, tab) => {
   return res.join('');
 };
 
-export default getDfferences;
+export default (obj1, obj2) => `{\n${getDfferences(obj1, obj2, '  ')}}`;
+
