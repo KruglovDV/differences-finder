@@ -1,6 +1,6 @@
 {
   "name": "kruglov-gendif",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Compares two configuration files and shows a difference.",
   "main": "./dist/index.js",
   "bin": {
@@ -35,6 +35,8 @@
   },
   "jest": {
     "testRegex": ".*-test.js",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": ["<rootDir>/dist/",
+      "<rootDir>/__tests__/__fixtures__"]
   }
 }
