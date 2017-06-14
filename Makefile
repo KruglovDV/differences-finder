@@ -9,6 +9,8 @@ publish:
 
 lint:
 		npm run eslint -- src
+		npm run eslint -- __tests__
+
 
 test:
 		npm test

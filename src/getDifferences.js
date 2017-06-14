@@ -1,43 +1,43 @@
 import _ from 'lodash';
-import path from 'path';
-import getParser from './parsers';
-import getFile from './getFile';
 
-const getDfferences = (firstObj, secObj) => {
-  if (!firstObj || !secObj) {
-    throw Error('can`t parse from this format!');
-  }
-  const keys = _.union(Object.keys(firstObj), (Object.keys(secObj)));
+const getDfferences = (obj1, obj2, tab) => {
+  const keys = _.union(Object.keys(obj1), (Object.keys(obj2)));
 
-  const res = [...keys.reduce((acc, el) => {
-    if (firstObj[el] === secObj[el]) {
-      return [...acc, `    ${el}: ${firstObj[el]}\n`];
+  const res = keys.reduce((acc, key) => {
+    if (obj1[key] === obj2[key]) {
+      return acc.concat(`${tab}  ${key}: ${obj1[key]}\n`);
     }
 
-    if (firstObj[el] && secObj[el]) {
-      return [...acc, `  + ${el}: ${secObj[el]}\n  - ${el}: ${firstObj[el]}\n`];
+    if (obj1[key] && obj2[key]) {
+      if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+        return acc.concat(`${tab}  ${key}: {\n${getDfferences(obj1[key], obj2[key], `    ${tab}`)}${tab}  }\n`);
+      }
+      return acc.concat(`${tab}+ ${key}: ${obj2[key]}\n${tab}- ${key}: ${obj1[key]}\n`);
     }
 
-    if (firstObj[el] && secObj[el] === undefined) {
-      return [...acc, `  - ${el}: ${firstObj[el]}\n`];
+    if (obj1[key] && obj2[key] === undefined) {
+      if (typeof obj1[key] === 'object') {
+        return acc.concat(`${tab}- ${key}: {\n${getDfferences(obj1[key], false, `    ${tab}`)}${tab}  }\n`);
+      }
+      if (!obj2) {
+        return acc.concat(`${tab}  ${key}: ${obj1[key]}\n`);
+      }
+      return acc.concat(`${tab}- ${key}: ${obj1[key]}\n`);
     }
 
-    if (secObj[el] && firstObj[el] === undefined) {
-      return [...acc, `  + ${el}: ${secObj[el]}\n`];
+    if (obj2[key] && obj1[key] === undefined) {
+      if (typeof obj2[key] === 'object') {
+        return acc.concat(`${tab}+ ${key}: {\n${getDfferences(false, obj2[key], `    ${tab}`)}${tab}  }\n`);
+      }
+      if (!obj1) {
+        return acc.concat(`${tab}  ${key}: ${obj2[key]}\n`);
+      }
+      return acc.concat(`${tab}+ ${key}: ${obj2[key]}\n`);
     }
     return acc;
-  }, ['{\n']), '}'];
+  }, []);
 
   return res.join('');
 };
 
-export default (path1, path2) => {
-  const extension = path.extname(path1);
-  const parser = getParser(extension);
-  const file1 = getFile(path1);
-  const file2 = getFile(path2);
-  const obj1 = parser(file1);
-  const obj2 = parser(file2);
-
-  return getDfferences(obj1, obj2);
-};
+export default getDfferences;
