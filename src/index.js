@@ -1,17 +1,25 @@
+import fs from 'fs';
 import path from 'path';
 import getParser from './parsers';
-import getFile from './getFile';
+import renderDefault from './renderDefault';
+import renderPlain from './renderPlain';
 import getDfferences from './getDifferences';
-import parseForDisp from './parseforDisplay';
 
-export default (path1, path2) => {
+const renders = {
+  default: renderDefault,
+  plain: renderPlain,
+};
+
+const getFileContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
+
+export default (path1, path2, format) => {
   const extension = path.extname(path1);
   const getObject = getParser(extension);
-  const file1 = getFile(path1);
-  const file2 = getFile(path2);
-  const obj1 = getObject(file1);
-  const obj2 = getObject(file2);
-
+  const fileContent1 = getFileContent(path1);
+  const fileContent2 = getFileContent(path2);
+  const obj1 = getObject(fileContent1);
+  const obj2 = getObject(fileContent2);
   const diferencesObj = getDfferences(obj1, obj2);
-  return parseForDisp(diferencesObj);
+  const render = renders[format];
+  return render(diferencesObj);
 };
