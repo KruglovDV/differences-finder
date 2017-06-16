@@ -1,38 +1,24 @@
-const render = (ast, tab, sign) => {
-  const res = Object.keys(ast).map((key) => {
-    if (ast[key].type === 'unchanged') {
-      if (typeof ast[key].value === 'object') {
-        return `${tab}  ${key}: {\n${render(ast[key].value, `    ${tab}`, true)}${tab}  }\n`;
-      }
-      return `${tab}  ${key}: ${ast[key].value}\n`;
-    }
-    if (ast[key].type === 'changed') {
-      return `${tab}+ ${key}: ${ast[key].after}\n` +
-             `${tab}- ${key}: ${ast[key].before}\n`;
-    }
-    if (ast[key].type === 'removed') {
-      if (typeof ast[key].value === 'object') {
-        return `${tab}- ${key}: {\n${render(ast[key].value, `    ${tab}`, false)}${tab}  }\n`;
-      }
-      if (!sign) {
-        return `${tab}  ${key}: ${ast[key].value}\n`;
-      }
-      return `${tab}- ${key}: ${ast[key].value}\n`;
-    }
-    if (ast[key].type === 'added') {
-      if (typeof ast[key].value === 'object') {
-        return `${tab}+ ${key}: {\n${render(ast[key].value, `    ${tab}`, false)}${tab}  }\n`;
-      }
-      if (!sign) {
-        return `${tab}  ${key}: ${ast[key].value}\n`;
-      }
-      return `${tab}+ ${key}: ${ast[key].value}\n`;
-    }
-    return '';
-  })
-    .join('');
+import _ from 'lodash';
 
-  return res;
+const signs = {
+  added: '+ ',
+  removed: '- ',
+  unchanged: '  ',
 };
 
-export default ast => `{\n${render(ast, '  ', true)}}`;
+const render = (ast, tab, sign) => {
+  const res = ast.map((el) => {
+    const [key, type, value] = _.flattenDepth(el, 1);
+
+    if (typeof value[0] === 'object') {
+      const sig = type === 'unchanged';
+      return [`${tab}${signs[type]}${key}: {${render(value[0], `${tab}    `, sig)}${tab}  }`];
+    }
+
+    return type === 'updated' ? [`${tab}${signs.added}${key}: ${value[1]}`, `${tab}${signs.removed}${key}: ${value[0]}`].join('\n') :
+      [`${tab}${sign ? signs[type] : '  '}${key}: ${value}`];
+  });
+  return `\n${res.join('\n')}\n`;
+};
+
+export default ast => `{${render(ast, '  ', true)}}`;

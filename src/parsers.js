@@ -7,5 +7,11 @@ const parsers = {
   '.json': JSON.parse,
 };
 
-export default extension => parsers[extension];
+export default (extension) => {
+  const parser = parsers[extension];
+  if (!parser) {
+    throw Error('unhendable extension!');
+  }
+  return parser;
+};
 

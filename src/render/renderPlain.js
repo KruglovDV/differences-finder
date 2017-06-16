@@ -1,25 +1,27 @@
+import _ from 'lodash';
+
 const render = (ast, parent) => {
-  const res = Object.keys(ast).map((key) => {
-    if (ast[key].type === 'unchanged' && typeof ast[key].value === 'object') {
-      return render(ast[key].value, `${parent}${key}.`);
+  const res = ast.map((el) => {
+    const [key, type, value] = _.flattenDepth(el, 1);
+
+    if (type === 'added') {
+      return typeof value[0] === 'object' ? [`Property '${parent}${key}' was added with complex value`] :
+        [`Property '${parent}${key}' was added with ${typeof value[0] === 'string' ? `'${value[0]}'` : `value ${value[0]}`}`];
     }
-    if (ast[key].type === 'added') {
-      if (typeof ast[key].value === 'object') {
-        return `Property "${parent}${key}" was added with complex value\n`;
-      }
-      return `Property "${parent}${key}" was added with ${typeof ast[key].value === 'string' ?
-        `"${ast[key].value}"\n` : `value ${ast[key].value}\n`}`;
+    if (type === 'removed') {
+      return [`Property '${parent}${key}' was removed`];
     }
-    if (ast[key].type === 'removed') {
-      return `Property "${parent}${key}" was removed\n`;
+
+    if (type === 'updated') {
+      return [`Property '${parent}${key}' was updated. From '${value[0]}' to '${value[1]}'`];
     }
-    if (ast[key].type === 'changed') {
-      return `Property "${parent}${key}" was updated From "${ast[key].before}" to "${ast[key].after}"\n`;
+
+    if (type === 'unchanged' && typeof value[0] === 'object') {
+      return render(value[0], `${parent}${key}.`);
     }
     return '';
-  })
-    .join('');
-  return res;
+  });
+  return res.filter(el => el !== '').join('\n');
 };
 
-export default ast => render(ast, '').slice(0, -1);
+export default ast => render(ast, '');

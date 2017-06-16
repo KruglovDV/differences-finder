@@ -70,4 +70,3 @@ test('difference between INI recursive files', () => {
   const secondFile = path.join(__dirname, '__fixtures__/recursSecond.json');
   expect(diff(firstFile, secondFile, 'default')).toEqual(recRes);
 });
-
