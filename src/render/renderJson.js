@@ -6,9 +6,6 @@ const render = (ast) => {
       return { ...acc, [key]: { type, value: render(value) } };
     }
 
-    if (type === 'updated') {
-      return { ...acc, [key]: { type, before: value.before, after: value.after } };
-    }
     return { ...acc, [key]: { type, value } };
   }, {});
   return res;

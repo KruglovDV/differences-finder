@@ -3,7 +3,7 @@ import diff from '../src/';
 
 const res = {
   host: { type: 'unchanged', value: 'hexlet.io' },
-  timeout: { type: 'updated', after: 20, before: 50 },
+  timeout: { type: 'updated', value: { after: 20, before: 50 } },
   proxy: { type: 'removed', value: '123.234.53.22' },
   verbose: { type: 'added', value: true },
 };
@@ -23,7 +23,7 @@ test('difference between YAML files', () => {
 test('difference between INI files', () => {
   const resIni = {
     host: { type: 'unchanged', value: 'hexlet.io' },
-    timeout: { type: 'updated', after: '20', before: '50' },
+    timeout: { type: 'updated', value: { after: '20', before: '50' } },
     proxy: { type: 'removed', value: '123.234.53.22' },
     verbose: { type: 'added', value: true },
   };
@@ -57,7 +57,7 @@ const recRes = {
   group1: {
     type: 'unchanged',
     value: {
-      baz: { type: 'updated', before: 'bas', after: 'bars' },
+      baz: { type: 'updated', value: { before: 'bas', after: 'bars' } },
       foo: { type: 'unchanged', value: 'bar' },
     },
   },
