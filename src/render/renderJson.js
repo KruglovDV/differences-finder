@@ -14,4 +14,4 @@ const render = (ast) => {
   return res;
 };
 
-export default ast => render(ast);
+export default render;

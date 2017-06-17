@@ -13,7 +13,8 @@ const render = (ast, tab, sign) => {
       return [`${tab}${signs[type]}${key}: {${render(value, `${tab}    `, sig)}${tab}  }`];
     }
 
-    return type === 'updated' ? [`${tab}${signs.added}${key}: ${value.after}`, `${tab}${signs.removed}${key}: ${value.before}`].join('\n') :
+    return type === 'updated' ?
+      [`${tab}${signs.added}${key}: ${value.after}`, `${tab}${signs.removed}${key}: ${value.before}`].join('\n') :
       [`${tab}${sign ? signs[type] : '  '}${key}: ${value}`];
   });
   return `\n${res.join('\n')}\n`;
