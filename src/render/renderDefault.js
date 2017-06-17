@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 const signs = {
   added: '+ ',
   removed: '- ',
@@ -8,14 +6,14 @@ const signs = {
 
 const render = (ast, tab, sign) => {
   const res = ast.map((el) => {
-    const [key, type, value] = _.flattenDepth(el, 1);
+    const { key, type, value } = el;
 
-    if (typeof value[0] === 'object') {
+    if (typeof value === 'object' && type !== 'updated') {
       const sig = type === 'unchanged';
-      return [`${tab}${signs[type]}${key}: {${render(value[0], `${tab}    `, sig)}${tab}  }`];
+      return [`${tab}${signs[type]}${key}: {${render(value, `${tab}    `, sig)}${tab}  }`];
     }
 
-    return type === 'updated' ? [`${tab}${signs.added}${key}: ${value[1]}`, `${tab}${signs.removed}${key}: ${value[0]}`].join('\n') :
+    return type === 'updated' ? [`${tab}${signs.added}${key}: ${value.after}`, `${tab}${signs.removed}${key}: ${value.before}`].join('\n') :
       [`${tab}${sign ? signs[type] : '  '}${key}: ${value}`];
   });
   return `\n${res.join('\n')}\n`;
