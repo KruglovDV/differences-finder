@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import getParser from './parsers';
-import getRenderer from './render';
+import getRenderer from './renderers';
 import getDfferences from './getDifferences';
 
 const getFileContent = pathToFile => fs.readFileSync(pathToFile, 'utf-8');
